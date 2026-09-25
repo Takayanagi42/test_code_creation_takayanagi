@@ -63,7 +63,7 @@ public class Case03 {
 		// 2. ログインボタンを押下
 		webDriver.findElement(By.xpath("//input[@type='submit']")).click();
 
-		// 3. 待機オブジェクトの作成（10秒まで待つ設定）
+		// 3. 待機オブジェクトの作成（5秒まで待つ設定）
 		WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
 
 		// 4. 遷移後の画面に「コース詳細」と表示されていることを検証
