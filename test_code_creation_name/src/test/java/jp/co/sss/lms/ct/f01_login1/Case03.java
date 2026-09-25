@@ -3,6 +3,8 @@ package jp.co.sss.lms.ct.f01_login1;
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.Duration;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * 結合テスト ログイン機能①
@@ -60,11 +63,17 @@ public class Case03 {
 		// 2. ログインボタンを押下
 		webDriver.findElement(By.xpath("//input[@type='submit']")).click();
 
-		// 3. 遷移後の画面に「コース詳細」と表示されていることを検証
+		// 3. 待機オブジェクトの作成（10秒まで待つ設定）
+		WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
+
+		// 4. 遷移後の画面に「コース詳細」と表示されていることを検証
 		String detailText = webDriver.findElement(By.tagName("body")).getText();
 		assertTrue(detailText.contains("コース詳細"));
 
-		// 4. エビデンス取得
+		// 5. Titleの取得とアサーション
+		assertEquals("コース詳細 | LMS", webDriver.getTitle());
+
+		// 6. エビデンス取得
 		getEvidence(new Object() {
 		});
 
