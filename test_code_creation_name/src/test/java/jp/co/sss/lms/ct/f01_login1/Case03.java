@@ -10,6 +10,7 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openqa.selenium.By;
 
 /**
  * 結合テスト ログイン機能①
@@ -52,7 +53,21 @@ public class Case03 {
 	@Order(2)
 	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
-		// TODO ここに追加
+		// 1. 初回ログイン済みのログインIDとパスワードを入力
+		webDriver.findElement(By.id("loginId")).sendKeys("StudentAA01");
+		webDriver.findElement(By.id("password")).sendKeys("StudentAA02");
+
+		// 2. ログインボタンを押下
+		webDriver.findElement(By.xpath("//input[@type='submit']")).click();
+
+		// 3. 遷移後の画面に「コース詳細」と表示されていることを検証
+		String detailText = webDriver.findElement(By.tagName("body")).getText();
+		assertTrue(detailText.contains("コース詳細"));
+
+		// 4. エビデンス取得
+		getEvidence(new Object() {
+		});
+
 	}
 
 }
