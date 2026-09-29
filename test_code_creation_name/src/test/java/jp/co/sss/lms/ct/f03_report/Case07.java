@@ -1,6 +1,9 @@
 package jp.co.sss.lms.ct.f03_report;
 
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.Duration;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,6 +12,8 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * 結合テスト レポート機能
@@ -35,14 +40,42 @@ public class Case07 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		// TODO ここに追加
+		// 1. 指定のURLの画面を開く
+		goTo("http://localhost:8080/lms/");
+
+		// 2. Titleの取得とアサーション
+		assertEquals("ログイン | LMS", webDriver.getTitle());
+
+		// 3. エビデンスを取得して保存
+		getEvidence(new Object() {
+
+		});
 	}
 
 	@Test
 	@Order(2)
 	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
-		// TODO ここに追加
+		// 1. 初回ログイン済みのログインIDとパスワードを入力
+		webDriver.findElement(By.id("loginId")).sendKeys("StudentAA01");
+		webDriver.findElement(By.id("password")).sendKeys("StudentAA02");
+
+		// 2. ログインボタンを押下
+		webDriver.findElement(By.xpath("//input[@type='submit']")).click();
+
+		// 3. 待機オブジェクトの作成（5秒まで待つ設定）
+		WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
+
+		// 4. 遷移後の画面に「コース詳細」と表示されていることを検証
+		String detailText = webDriver.findElement(By.tagName("body")).getText();
+		assertTrue(detailText.contains("コース詳細"));
+
+		// 5. Titleの取得とアサーション
+		assertEquals("コース詳細 | LMS", webDriver.getTitle());
+
+		// 6. エビデンス取得
+		getEvidence(new Object() {
+		});
 	}
 
 	@Test

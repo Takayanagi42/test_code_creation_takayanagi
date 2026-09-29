@@ -147,13 +147,17 @@ public class Case06 {
 		webDriver.findElement(By.linkText("【研修関係】")).click();
 
 		// 2. 検索結果を取得する
-		List<WebElement> question = webDriver.findElements(By.id("question-h[${status.index}]"));
+		List<WebElement> questions = webDriver.findElements(By.id("question-h[${status.index}]"));
 
-		// 3. 結果を2件か確認する
-		assertEquals(2, question.size());
+		// 3. 検索結果が正しいか確認する
+		String question0 = questions.get(0).getText();
+		String question1 = questions.get(1).getText();
+
+		assertTrue(question0.contains("キャンセル"));
+		assertTrue(question1.contains("申し込み"));
 
 		// 4. 検索結果までスクロール
-		WebElement firstResult = question.get(0);
+		WebElement firstResult = questions.get(0);
 
 		((JavascriptExecutor) webDriver).executeScript(
 				"arguments[0].scrollIntoView({block: 'center'});",
